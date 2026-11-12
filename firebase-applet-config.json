@@ -1,0 +1,12 @@
+{
+  "projectId": "fluid-echo",
+  "appId": "1:712873876146:web:96aa0745d7f21d5a9047ab",
+  "apiKey": "AIzaSyBqZRB9epxll1aHtLxpUdP4Lj0Z0OlYzGA",
+  "authDomain": "fluid-echo.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-fluid-484be677-ba66-4e82-829f-103e1701b9e0",
+  "storageBucket": "fluid-echo.firebasestorage.app",
+  "messagingSenderId": "712873876146",
+  "measurementId": "",
+  "oAuthClientId": "712873876146-2ofl28vk6mgjrfp53v0kesc1q3qtpp6b.apps.googleusercontent.com",
+  "recaptchaSiteKey": ""
+}

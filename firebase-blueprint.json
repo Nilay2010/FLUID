@@ -1,0 +1,157 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile in Fluid platform by ECHO Intelligence",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "username": { "type": "string", "maxLength": 30, "pattern": "^[a-zA-Z0-9_.]+$" },
+        "displayName": { "type": "string", "maxLength": 50 },
+        "avatarUrl": { "type": "string", "maxLength": 1000 },
+        "bio": { "type": "string", "maxLength": 200 },
+        "followersCount": { "type": "number" },
+        "followingCount": { "type": "number" },
+        "postsCount": { "type": "number" },
+        "interests": { "type": "array" },
+        "preferredSources": { "type": "array" },
+        "affinityScores": { "type": "object" },
+        "connectedAccounts": { "type": "object" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "username", "displayName"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Media post in Fluid feed",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorUsername": { "type": "string", "maxLength": 30 },
+        "authorDisplayName": { "type": "string", "maxLength": 60 },
+        "authorAvatarUrl": { "type": "string", "maxLength": 1000 },
+        "imageUrl": { "type": "string", "maxLength": 2000000 },
+        "aspectRatio": { "type": "string", "enum": ["1:1", "4:5"] },
+        "caption": { "type": "string", "maxLength": 2200 },
+        "tags": { "type": "array" },
+        "embedUrl": { "type": "string", "maxLength": 1000 },
+        "embedData": { "type": "object" },
+        "likesCount": { "type": "number" },
+        "likedBy": { "type": "array" },
+        "commentsCount": { "type": "number" },
+        "location": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "authorId", "authorUsername", "imageUrl"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "24-hour ephemeral story in Fluid",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorUsername": { "type": "string", "maxLength": 30 },
+        "authorAvatarUrl": { "type": "string", "maxLength": 1000 },
+        "mediaUrl": { "type": "string", "maxLength": 2000000 },
+        "createdAt": { "type": "string" },
+        "expiresAt": { "type": "number" },
+        "viewers": { "type": "array" }
+      },
+      "required": ["id", "authorId", "authorUsername", "mediaUrl"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "User comment on a post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "postId": { "type": "string", "maxLength": 128 },
+        "authorId": { "type": "string", "maxLength": 128 },
+        "authorUsername": { "type": "string", "maxLength": 30 },
+        "authorAvatarUrl": { "type": "string", "maxLength": 1000 },
+        "text": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "postId", "authorId", "authorUsername", "text"]
+    },
+    "Signal": {
+      "title": "Interaction Signal",
+      "description": "Telemetry signal for recommendation scoring",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["like", "comment", "bookmark", "pulse_click"] },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "tags": { "type": "array" },
+        "weight": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "type", "weight"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "Direct message thread between participants",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "participants": { "type": "array" },
+        "lastMessage": { "type": "string", "maxLength": 1000 },
+        "lastMessageSenderId": { "type": "string", "maxLength": 128 },
+        "lastMessageStatus": { "type": "string" },
+        "lastMessageRead": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "participants"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Direct message within a chat thread",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "chatId": { "type": "string", "maxLength": 128 },
+        "senderId": { "type": "string", "maxLength": 128 },
+        "senderUsername": { "type": "string", "maxLength": 30 },
+        "text": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["sending", "sent", "delivered", "read"] },
+        "isRead": { "type": "boolean" },
+        "readAt": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "chatId", "senderId", "text"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Public user profiles"
+    },
+    "/users/{userId}/signals/{signalId}": {
+      "schema": "Signal",
+      "description": "User interaction affinity telemetry signals"
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Fluid feed media posts"
+    },
+    "/stories/{storyId}": {
+      "schema": "Story",
+      "description": "24-hour visual stories"
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Post comments subcollection"
+    },
+    "/chats/{chatId}": {
+      "schema": "Chat",
+      "description": "Direct message conversation threads"
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages inside direct message threads"
+    }
+  }
+}

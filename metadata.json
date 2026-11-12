@@ -1,0 +1,6 @@
+{
+  "name": "Fluid",
+  "description": "A native-feeling social media application from ECHO Intelligence featuring OLED dark aesthetics, stories, feed posts, real-time DMs, and Gemini AI caption assistance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
